@@ -1,0 +1,41 @@
+.cascading-right {
+  margin-right: -50px;
+}
+
+@media (max-width: 900px) {
+  .cascading-right {
+    margin-right: 0;
+  }
+}
+body {
+  /* fallback for old browsers */
+  background: #6a11cb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #14ffec, #212121);
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-image: url("https://i.pinimg.com/736x/2d/da/48/2dda48be0dbd2cb168e95974a0d70e7e.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+.login-creds,
+.login-img {
+  display: inline-block;
+  vertical-align: top; /* Align elements from the top */
+  margin-right: 10px; /* Optional: Add some space between the elements */
+}
+.login-creds {
+  max-width: 400px;
+}
+.login-img {
+  margin: auto;
+  margin-top: 8%;
+}
+input,textarea{
+  color:white;
+}
+

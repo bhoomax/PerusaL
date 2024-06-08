@@ -1,0 +1,19 @@
+{
+  "name": "perusal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
+    "gitignore": "^0.7.0",
+    "mdb-react-ui-kit": "^8.0.0",
+    "usestate": "^1.1.3"
+  }
+}
