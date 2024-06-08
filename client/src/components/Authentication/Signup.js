@@ -184,10 +184,20 @@
 
 // export default Signup;
 
-import React from 'react';
+import React, { useState } from 'react';
 import './Signup.css'; // Import CSS file
 
 function Signup() {
+  const [data, setData] = useState({
+    firstName: '',
+    lastName: '',
+    username: '',
+    usn: '',
+    phoneNumber: '',
+    password: ''
+  });
+  const [error, setError] = useState(null);
+
   // Function to toggle password visibility
   const togglePasswordVisibility = (id) => {
     const field = document.getElementById(id);
@@ -198,36 +208,74 @@ function Signup() {
     }
   };
 
+  // Function to handle form submission
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      if (response.status === 200) {
+        console.log(result);
+        // Handle successful signup, e.g., redirect to login page
+      } else {
+        setError(result.message);
+        console.log(result);
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+      console.error(err);
+    }
+  };
+
   return (
     <div className="flex-container">
       <h1>PERUSAL</h1>
       <div className="content-container">
         <div className="form-container">
-          <div>
+          <form onSubmit={handleSignup}>
             <input
               type="text"
-              name="first_name"
+              name="firstName"
               placeholder="First Name"
               required
+              value={data.firstName}
+              onChange={(e) => setData({ ...data, firstName: e.target.value })}
             />
             <input
               type="text"
-              name="last_name"
+              name="lastName"
               placeholder="Last Name"
               required
+              value={data.lastName}
+              onChange={(e) => setData({ ...data, lastName: e.target.value })}
             />
             <input
               type="text"
               name="username"
               placeholder="Username"
               required
+              value={data.username}
+              onChange={(e) => setData({ ...data, username: e.target.value })}
             />
-            <input type="text" name="usn" placeholder="USN" required />
             <input
               type="text"
-              name="phone_number"
+              name="usn"
+              placeholder="USN"
+              required
+              value={data.usn}
+              onChange={(e) => setData({ ...data, usn: e.target.value })}
+            />
+            <input
+              type="text"
+              name="phoneNumber"
               placeholder="Phone Number"
               required
+              value={data.phoneNumber}
+              onChange={(e) => setData({ ...data, phoneNumber: e.target.value })}
             />
             <input
               type="password"
@@ -235,6 +283,8 @@ function Signup() {
               name="password"
               placeholder="Password"
               required
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })}
             />
             <span
               className="toggle-visibility"
@@ -242,13 +292,14 @@ function Signup() {
             >
               Show/Hide Password
             </span>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <input type="submit" value="SIGN UP" className="submit-btn" />
+          </form>
+          <div className="links">
+            <a href="/login_page.html" className="link">
+              Already have an account? Login
+            </a>
           </div>
-        </div>
-        <input type="submit" value="SIGN UP" className="submit-btn" />
-        <div className="links">
-          <a href="/login_page.html" className="link">
-            Already have an account? Login
-          </a>
         </div>
       </div>
     </div>
