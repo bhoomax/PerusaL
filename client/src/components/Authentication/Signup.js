@@ -1,3 +1,4 @@
+
 // import React, { Fragment, useState } from "react";
 // import Home from "../Home";
 // import { useEffect } from "react";
@@ -186,8 +187,13 @@
 
 import React, { useState } from 'react';
 import './Signup.css'; // Import CSS file
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useCookies } from "react-cookie";
 function Signup() {
+
+  const navigate = useNavigate();
+
+
   const [data, setData] = useState({
     firstName: '',
     lastName: '',
@@ -197,6 +203,10 @@ function Signup() {
     password: ''
   });
   const [error, setError] = useState(null);
+
+  const [cookies, setCookie] = useCookies(null);
+
+
 
   // Function to toggle password visibility
   const togglePasswordVisibility = (id) => {
@@ -221,6 +231,11 @@ function Signup() {
       if (response.status === 200) {
         console.log(result);
         // Handle successful signup, e.g., redirect to login page
+
+        setCookie("username", data.username);
+        setCookie("AuthToken", data.token);
+        navigate('/main');
+
       } else {
         setError(result.message);
         console.log(result);
@@ -239,6 +254,21 @@ function Signup() {
           <form onSubmit={handleSignup}>
             <input
               type="text"
+
+              name="fname"
+              placeholder="First Name"
+              required
+              value={data.fname}
+              onChange={(e) => setData({ ...data, fname: e.target.value })}
+            />
+            <input
+              type="text"
+              name="lname"
+              placeholder="Last Name"
+              required
+              value={data.lname}
+              onChange={(e) => setData({ ...data, lname: e.target.value })}
+
               name="firstName"
               placeholder="First Name"
               required
@@ -252,6 +282,7 @@ function Signup() {
               required
               value={data.lastName}
               onChange={(e) => setData({ ...data, lastName: e.target.value })}
+
             />
             <input
               type="text"
@@ -260,6 +291,24 @@ function Signup() {
               required
               value={data.username}
               onChange={(e) => setData({ ...data, username: e.target.value })}
+
+            />
+            <input
+              type="text"
+              name="usn"
+              placeholder="USN"
+              required
+              value={data.usn}
+              onChange={(e) => setData({ ...data, usn: e.target.value })}
+            />
+            <input
+              type="text"
+              name="phno"
+              placeholder="Phone Number"
+              required
+              value={data.phno}
+              onChange={(e) => setData({ ...data, phno: e.target.value })}
+
             />
             <input
               type="text"
@@ -276,6 +325,7 @@ function Signup() {
               required
               value={data.phoneNumber}
               onChange={(e) => setData({ ...data, phoneNumber: e.target.value })}
+
             />
             <input
               type="password"
@@ -292,6 +342,19 @@ function Signup() {
             >
               Show/Hide Password
             </span>
+
+            {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
+           {/* <Link to="/login"> <input type="submit" value="signup" className="submit-btn" />
+             
+            </Link> */}
+            <Link to= "/login" className="submit-btn" onClick={handleSignup}>Sign Up</Link>
+
+          </form>
+          <div className="links">
+            <Link to="/login" className="link">
+              Already have an account? Login
+            </Link>
+
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <input type="submit" value="SIGN UP" className="submit-btn" />
           </form>
@@ -299,6 +362,7 @@ function Signup() {
             <a href="/login_page.html" className="link">
               Already have an account? Login
             </a>
+
           </div>
         </div>
       </div>

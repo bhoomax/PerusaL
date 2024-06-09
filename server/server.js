@@ -336,6 +336,32 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//search
+/*In front-end, on adding multiple options it should render additionally. */
+app.post("/search", async (req, res) => {
+  const search = req.body.search;
+  console.log(search);
+  try {
+    // Using a parameterized query to prevent SQL injection
+    const checkResult = await db.query(
+      `SELECT u.username FROM users u 
+       JOIN ${db.escapeIdentifier(search)} d 
+       ON u.userid = d.userid`
+    );
+
+    // Map the rows to extract usernames
+    const usernames = checkResult.rows.map(row => row.username);
+
+    // Respond with the array of usernames
+    res.status(200).json(usernames);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
 
 //add
 /*Username and badge name will be sent, userid is added to the domain table */
@@ -379,11 +405,18 @@ app.post("/add", async (req, res) => {
   const { badge, username } = req.body;
 
   try {
+
+      const checkResult = await db.query(
+          `SELECT userid FROM users WHERE username=$1`,
+          [username]
+      );
+
     // Check if the user exists
     const checkUserResult = await db.query(
       `SELECT userid FROM users WHERE username=$1`,
       [username]
     );
+
 
     if (checkUserResult.rows.length === 0) {
       return res.status(404).json({ message: "User not found" });
@@ -391,20 +424,34 @@ app.post("/add", async (req, res) => {
 
     const userid = checkUserResult.rows[0].userid;
 
+
+      const badgeCheckResult = await db.query(
+          `SELECT userid FROM ${badge} WHERE userid=$1`,
+          [userid]
+      );
+
     // Check if the user already has the badge
     const badgeCheckResult = await db.query(
       `SELECT userid FROM ${badge} WHERE userid=$1`,
       [userid]
     );
 
+
     if (badgeCheckResult.rows.length > 0) {
       return res.status(400).json({ message: "Domain already chosen!" });
     }
+
+ 
+      await db.query(
+          `INSERT INTO ${badge} (userid) VALUES ($1) RETURNING *`,
+          [userid]
+      );
 
     // Add the badge for the user
     await db.query(`INSERT INTO ${badge} (userid) VALUES ($1) RETURNING *`, [
       userid,
     ]);
+
 
     res.status(200).json({ message: "Badge added successfully!", username, badge });
   } catch (err) {
@@ -419,7 +466,7 @@ app.get("/profile/:username", async (req, res) => {
   const username = req.params.username;
 
   try {
-      const userResult = await pool.query("SELECT * FROM users WHERE username=$1", [username]);
+      const userResult = await db.query("SELECT * FROM users WHERE username=$1", [username]);
 
       if (userResult.rows.length === 0) {
           res.status(404).json({ message: "User not found" });
@@ -429,11 +476,11 @@ app.get("/profile/:username", async (req, res) => {
       const user = userResult.rows[0];
 
       const badges = await Promise.all([
-          pool.query("SELECT * FROM aiml WHERE userid=$1", [user.userid]),
-          pool.query("SELECT * FROM appdev WHERE userid=$1", [user.userid]),
-          pool.query("SELECT * FROM cybersec WHERE userid=$1", [user.userid]),
-          pool.query("SELECT * FROM devops WHERE userid=$1", [user.userid]),
-          pool.query("SELECT * FROM webdev WHERE userid=$1", [user.userid]),
+          db.query("SELECT * FROM aiml WHERE userid=$1", [user.userid]),
+          db.query("SELECT * FROM appdev WHERE userid=$1", [user.userid]),
+          db.query("SELECT * FROM cybersec WHERE userid=$1", [user.userid]),
+          db.query("SELECT * FROM devops WHERE userid=$1", [user.userid]),
+          db.query("SELECT * FROM webdev WHERE userid=$1", [user.userid]),
       ]);
 
       const badgeNames = ["aiml", "appdev", "cybersec", "devops", "webdev"];

@@ -1,0 +1,253 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    background-image: url("https://www.bing.com/th/id/OGC.1757acc703034655e3928e3e1fd7208c?pid=1.7&rurl=https%3a%2f%2fi.pinimg.com%2foriginals%2f54%2fc1%2f96%2f54c1963eaebc2c5f9d7632f07093b34f.gif&ehk=SOpDTd9i8TGeMzliFV7OB5on%2flftQ%2fbQ20pjCXuKbC4%3d");
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #1e1e1e;
+    box-shadow: 0 0 20px rgba(187, 134, 252, 0.5);
+  }
+
+  nav .logo {
+    font-size: 32px;
+    font-weight: 900;
+    -webkit-background-clip: text;
+    background: rgb(207, 1, 119);
+    background: linear-gradient(
+      90deg,
+      rgba(207, 1, 119, 1) 0%,
+      rgba(242, 52, 168, 1) 23%,
+      rgba(189, 3, 255, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+  }
+
+  nav ul {
+    margin-top: 10px;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+
+  nav ul li {
+    display: inline;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #e0e0e0;
+    font-weight: 700;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  nav a:hover {
+    color: #bb86fc;
+    background: rgb(207, 1, 119);
+    background: linear-gradient(
+      90deg,
+      rgba(207, 1, 119, 1) 0%,
+      rgba(242, 52, 168, 1) 23%,
+      rgba(189, 3, 255, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  nav a:after {
+    content: "";
+    bottom: -25px;
+    height: 0px;
+    width: 10px;
+    left: 50%;
+    position: absolute;
+    background-color: #01fefe;
+    border-radius: 50%;
+    transition: all 300ms;
+  }
+
+  nav a:hover::after {
+    height: 10px;
+    left: 50%;
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    background-color: #1e1e1e;
+    border: 2px solid;
+    border-image: linear-gradient(
+      to right,
+      rgba(207, 1, 119, 1) 0%,
+      rgba(242, 52, 168, 1) 23%,
+      rgba(189, 3, 255, 1) 100%
+    );
+    border-image-slice: 1;
+    border-radius: 5px;
+    padding: 5px 10px;
+   margin-left: 20px;
+    box-shadow: 0 0 20px rgba(187, 134, 252, 0.5);
+  }
+
+  .search-input {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    margin-top: 20px;
+  }
+
+  .search-input::placeholder {
+    color: #a1a1a1;
+  }
+
+  .search-button {
+    background: rgb(207, 1, 119);
+    background: linear-gradient(
+      90deg,
+      rgba(207, 1, 119, 1) 0%,
+      rgba(242, 52, 168, 1) 23%,
+      rgba(189, 3, 255, 1) 100%
+    );
+    color: #e0e0e0;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+  }
+  #search-results-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 0 20px rgba(187, 134, 252, 0.5);
+  }
+
+  #search-results {
+    list-style: none;
+    padding: 0;
+  }
+
+  .result-item {
+    padding: 10px;
+    border-bottom: 1px solid #bb86fc;
+  }
+  #landing {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.9)
+      );
+      /* url("https://png.pngtree.com/thumb_back/fh260/background/20230610/pngtree-cute-cuteness-wallpaper-image_2935345.jpg") no-repeat center center/cover; */
+    padding: 0 20px;
+  }
+
+  .landing-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .landing-container h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(
+      90deg,
+      rgba(101, 0, 195, 1) 0%,
+      rgba(119, 30, 227, 1) 23%,
+      rgba(226, 0, 168, 1) 100%
+    );
+    color: transparent;
+    text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .landing-container p {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #a1a1a1;
+  }
+
+  .landing-buttons .btn {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 15px 30px;
+    background: #121212;
+    color: #e0e0e0;
+    border: 2px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    border-image: linear-gradient(
+      to right,
+      rgba(207, 1, 119, 1) 0%,
+      rgba(242, 52, 168, 1) 23%,
+      rgba(189, 3, 255, 1) 100%
+    );
+    border-image-slice: 1;
+    box-shadow: 0 0 20px rgba(187, 134, 252, 0.5);
+  }
+
+  .landing-buttons .btn:hover {
+    background: rgb(207, 1, 119);
+    background: linear-gradient(
+      90deg,
+      rgba(207, 1, 119, 1) 0%,
+      rgba(242, 52, 168, 1) 23%,
+      rgba(189, 3, 255, 1) 100%
+    );
+    box-shadow: 0 0 20px rgba(55, 0, 179, 0.5);
+  }
+
+  .parallax {
+    background-attachment: fixed;
+    background-size: cover;
+    height: 500px;
+    position: relative;
+  }
+
+  .bg1 {
+    background-image: url("https://www.bing.com/th/id/OGC.1757acc703034655e3928e3e1fd7208c?pid=1.7&rurl=https%3a%2f%2fi.pinimg.com%2foriginals%2f54%2fc1%2f96%2f54c1963eaebc2c5f9d7632f07093b34f.gif&ehk=SOpDTd9i8TGeMzliFV7OB5on%2flftQ%2fbQ20pjCXuKbC4%3d");
+  }
+
+  .bg2 {
+    background-image: url("https://www.bing.com/th/id/OGC.1757acc703034655e3928e3e1fd7208c?pid=1.7&rurl=https%3a%2f%2fi.pinimg.com%2foriginals%2f54%2fc1%2f96%2f54c1963eaebc2c5f9d7632f07093b34f.gif&ehk=SOpDTd9i8TGeMzliFV7OB5on%2flftQ%2fbQ20pjCXuKbC4%3d");
+  }
+
+  footer {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+  }
+
+  footer p {
+    margin: 0;
+  }
