@@ -335,24 +335,7 @@ app.post("/login", async (req, res) => {
     console.error(err);
   }
 });
-//search
-/*In front-end, on adding multiple options it should render additionally. */
-app.post("/search", async (req, res) => {
-  const search = req.body.search;
-  try {
-    const checkResult = await db.query(
-      `SELECT username FROM users WHERE userid=(SELECT userid FROM ${db.escapeIdentifier(
-        search
-      )})`
-    );
-    console.log(typeof checkResult.rows);
 
-    res.status(200).json(checkResult.rows);
-    console.log(checkResult.rows[0].username);
-  } catch (err) {
-    console.log(err);
-  }
-});
 
 //add
 /*Username and badge name will be sent, userid is added to the domain table */
@@ -465,7 +448,29 @@ app.get("/profile/:username", async (req, res) => {
   }
 });
 
+//search
+/*In front-end, on adding multiple options it should render additionally. */
+app.post("/search", async (req, res) => {
+  const search = req.body.search;
+  console.log(search);
+  try {
+    // Using a parameterized query to prevent SQL injection
+    const checkResult = await db.query(
+      `SELECT u.username FROM users u 
+       JOIN ${db.escapeIdentifier(search)} d 
+       ON u.userid = d.userid`
+    );
 
+    // Map the rows to extract usernames
+    const usernames = checkResult.rows.map(row => row.username);
+
+    // Respond with the array of usernames
+    res.status(200).json(usernames);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 app.listen(port, () => {
   console.log(`Server has started on port ${port}`);
 });
