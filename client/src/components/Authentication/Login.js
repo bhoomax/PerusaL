@@ -132,8 +132,10 @@
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import "./Login.css";
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login(params) {
+  const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(null);
   const [Data, setData] = useState({});
   const [Error, setError] = useState(null);
@@ -152,6 +154,7 @@ function Login(params) {
         console.log(data);
         setCookie("username", data.username);
         setCookie("AuthToken", data.token);
+        navigate('/main');
       } else if (response.status === 400) {
         setError(data);
         console.log(data);
@@ -197,17 +200,9 @@ function Login(params) {
             <input type="submit" value="LOGIN" className="submit-btn" />
           </form>
           <div className="links">
-            <a
-              className="link l1"
-              onClick={() => {
-                params.PUserPresent(false);
-              }}
-            >
-              or create account/signup
-            </a>
-            <a href="/forgot_password.html" className="link l2">
-              Forgot Password?
-            </a>
+          <Link to="/signup" className="link">
+              New to Perusal? Sign-up!
+            </Link>
           </div>
         </div>
       </div>

@@ -1,14 +1,20 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
+import { useCookies } from "react-cookie";
 
 function AddBadge() {
   const [username, setUsername] = useState("");
   const [badge, setBadge] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(null);
 
   const handleAddBadge = async (e) => {
+    console.log(cookies);
+    setUsername(cookies.username);
+    console.log(username);
     e.preventDefault();
-
+    console.log("Submitted!",badge);
     try {
-      const response = await fetch("/add", {
+      const response = await fetch("http://localhost:5000/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,24 +34,19 @@ function AddBadge() {
       <nav style={styles.nav}>
         <div style={styles.logo}>Perusal</div>
         <ul style={styles.ul}>
-          <li><a href="#landing" style={styles.a}>Home</a></li>
-          <li><a href="profile.html?username=user1" style={styles.a}>Profile</a></li>
-          <li><a href="#link3" style={styles.a}>#link3</a></li>
+          <li><Link to="/main">Home</Link></li>
+          <li><Link to="/profile/:username">Profile</Link></li>
+          <li><Link to="/home" onClick={() => {
+        removeCookie("username");
+        removeCookie("AuthToken");
+        window.location.reload();
+      }}>Logout</Link></li>
         </ul>
       </nav>
       <div style={styles.container}>
         <h1 style={styles.h1}>Add Badge</h1>
         <form id="addBadgeForm" onSubmit={handleAddBadge} style={styles.form}>
-          <label htmlFor="username" style={styles.label}>Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={styles.input}
-          />
+          <label htmlFor="username" style={styles.label}>Username: {cookies.username}</label>
           <label htmlFor="badge" style={styles.label}>Badge:</label>
           <select
             id="badge"
@@ -135,7 +136,7 @@ const styles = {
   },
   select: {
     marginBottom: "20px",
-    padding: "10px",
+    padding: "2px",
     border: "1px solid rgba(207,1,119,1)",
     borderRadius: "4px",
     fontSize: "16px",
@@ -145,7 +146,7 @@ const styles = {
   submitBtn: {
     display: "inline-block",
     margin: "10px 5px",
-    padding: "15px 15px",
+    padding: "3px 3px",
     background: "#121212",
     color: "#e0e0e0",
     border: "2px solid",

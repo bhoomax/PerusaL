@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { useCookies } from "react-cookie";
 
 function Profile() {
-  const { username } = useParams();
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const username  = cookies.username;
+  console.log(username);
   const [userData, setUserData] = useState(null);
+  
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`/profile/${username}`);
+        const response = await fetch(`http://localhost:5000/profile/${username}`);
         const result = await response.json();
         if (response.status !== 200) {
           alert(result.message);
@@ -28,20 +33,16 @@ function Profile() {
         <div style={styles.logo}>Perusal</div>
         <ul style={styles.ul}>
           <li>
-            <a href="#landing" style={styles.a}>
-              Home
-            </a>
+          <li><Link to="/main">Home</Link></li>
           </li>
           <li>
-            <a href="add_badge.html" style={styles.a}>
-              Add Badge
-            </a>
+          <Link to="/add">Add Badge</Link>
           </li>
-          <li>
-            <a href="#link3" style={styles.a}>
-              #link3
-            </a>
-          </li>
+          <li><Link to="/home" onClick={() => {
+        removeCookie("username");
+        removeCookie("AuthToken");
+        window.location.reload();
+      }}>Logout</Link></li>
         </ul>
       </nav>
       <div style={styles.profileContainer}>
@@ -49,9 +50,6 @@ function Profile() {
           <>
             <div style={styles.profileHeader}>
               <h2 style={styles.h2}>{userData.user.username}</h2>
-              <button style={styles.logoutButton} onClick={() => alert("Logout clicked")}>
-                Logout
-              </button>
             </div>
             <div style={styles.profileDetails}>
               <p>
