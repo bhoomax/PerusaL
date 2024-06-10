@@ -150,14 +150,15 @@ function Login(params) {
         body: JSON.stringify(body),
       });
       const data = await response.json();
+      console.log(data);
       if (response.status === 200) {
-        console.log(data);
+        console.log("Herere",data);
         setCookie("username", data.username);
         setCookie("AuthToken", data.token);
         navigate('/main');
-      } else if (response.status === 400) {
-        setError(data);
-        console.log(data);
+      } else {
+        setError(data.message);
+        console.log(data.message);
       }
     } catch (err) {
       console.error(err);
