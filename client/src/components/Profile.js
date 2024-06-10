@@ -255,11 +255,11 @@ function Profile() {
               </p>
             </div>
             <div style={styles.badgeList}>
-              <h3>Badges</h3>
+              <h5>Badges</h5>
               <ul style={styles.badgeUl}>
                 {userData.badges.map((badge) => (
                   <li key={badge} style={styles.badgeLi}>
-                    <div className={`badge-circle ${badge}`} style={styles.badgeCircle}></div>
+                    {/* <div className={badge-circle ${badge}} style={styles.badgeCircle}></div> */}
                     <i className={badgeIcons[badge] || "fas fa-trophy"} style={styles.badgeIcon}></i>
                     {badge}
                   </li>
@@ -280,6 +280,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
     padding: "20px",
     backgroundColor: "#1e1e1e",
     boxShadow: "0 0 15px rgba(187, 134, 252, 0.5)",
@@ -287,8 +288,8 @@ const styles = {
   logo: {
     fontSize: "32px",
     fontWeight: "900",
-    WebkitBackgroundClip: "text",
     background: "linear-gradient(90deg, rgba(207,1,119,1) 0%, rgba(242,52,168,1) 23%, rgba(189,3,255,1) 100%)",
+    WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     textShadow: "0 0 10px rgba(187, 134, 252, 0.5)",
   },
@@ -320,11 +321,12 @@ const styles = {
   h2: {
     marginBottom: "10px",
     fontSize: "35px",
-    WebkitBackgroundClip: "text",
     background: "linear-gradient(90deg, rgba(207,1,119,1) 0%, rgba(242,52,168,1) 23%, rgba(189,3,255,1) 100%)",
+    WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     textShadow: "0 0 10px rgba(187, 134, 252, 0.5)",
-  },
+   },
+   
   logoutButton: {
     padding: "10px 20px",
     backgroundColor: "#bb86fc",
@@ -376,5 +378,7 @@ const badgeIcons = {
   webdev: "fas fa-code",
 };
 
+
 export default Profile;
+
 

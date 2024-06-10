@@ -228,6 +228,7 @@ function Signup() {
         body: JSON.stringify(data)
       });
       const result = await response.json();
+      console.log(response.status);
       if (response.status === 200) {
         console.log(result);
         // Handle successful signup, e.g., redirect to login page
@@ -236,9 +237,12 @@ function Signup() {
         setCookie("AuthToken", data.token);
         navigate('/main');
 
-      } else {
-        setError(result.message);
+      } else if(response.status===400){
+        setError("User already exists. Try logging in.");
         console.log(result);
+      }else{
+        setError(response.message);
+        console.log(response);
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
@@ -343,7 +347,8 @@ function Signup() {
               Show/Hide Password
             </span>
 
-            {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
            {/* <Link to="/login"> <input type="submit" value="signup" className="submit-btn" />
              
             </Link> */}

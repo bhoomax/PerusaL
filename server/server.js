@@ -279,13 +279,15 @@ app.post("/signup", async (req, res) => {
       usn,
     ]);
     if (checkResult.rows.length > 0) {
-      res.status(400).send("User already exists. Try logging in.");
+      res.status(400).send({ message: "Useralready exists. Try logging in." });
+      return;
     } else {
       // Hashing
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if (err) {
           console.log(err);
-          res.status(488).send("Error hashing password");
+          res.status(500).send({ message: "Some error occured. Try again." });
+          return;
         } else {
           try {
             const result = await db.query(
@@ -293,7 +295,8 @@ app.post("/signup", async (req, res) => {
               [fname, lname, phno, usn, hash, username]
             );
           } catch (err) {
-            res.status(400).send("Username Taken.");
+            res.status(400).send({ message: "Username Taken." });
+            return;
           }
           const token = jwt.sign({ username }, "secret", { expiresIn: "1hr" });
           res.status(200).json({ username, token });
@@ -309,6 +312,7 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+  console.log(username,password);
   try {
     const result = await db.query("SELECT * FROM users WHERE username = $1", [
       username,
@@ -323,13 +327,13 @@ app.post("/login", async (req, res) => {
         if (result) {
           const token = jwt.sign({ username }, "secret", { expiresIn: "1hr" });
 
-          res.status(200).json({ username, token });
+          res.status(200).send({ username, token });
         } else {
-          res.status(400).json("Incorrect Password");
+          res.status(400).send({ message: "Wrong password. Please try again." });
         }
       });
     } else {
-      res.status(400).json("User not found");
+      res.status(400).send({message:"User not found"});
     }
   } catch (err) {
     console.error(err);
@@ -360,45 +364,6 @@ app.post("/search", async (req, res) => {
   }
 });
 
-
-
-
-//add
-/*Username and badge name will be sent, userid is added to the domain table */
-// app.post("/add", async (req, res) => {
-//   const badge = req.body.badge;
-//   const username = req.body.username;
-//   try {
-//     const checkResult = await db.query(
-//       `SELECT userid FROM ${db.escapeIdentifier(
-//         badge
-//       )} NATURAL JOIN users WHERE users.username=$1`,
-//       [username]
-//     );
-//     if (checkResult.rows.length > 0) {
-//       res.status(400).send("Domain already chosen!");
-//     } else {
-//       try {
-//         const user = await db.query(
-//           "SELECT userid FROM users WHERE username=$1",
-//           [username]
-//         );
-//         const userid = user.rows[0].userid;
-//         await db.query(
-//           `INSERT INTO ${db.escapeIdentifier(badge)} VALUES ($1) RETURNING *`,
-//           [userid]
-//         );
-//         res.status(200).send("Badge added successfully!");
-//       } catch (err) {
-//         res.status(600).send("Error Occured.");
-//         console.log(err);
-//       }
-//     }
-//   } catch (err) {
-//     res.status(600).send("Error Occured.");
-//     console.error(err);
-//   }
-// });
 
 // Add badge
 app.post("/add", async (req, res) => {
